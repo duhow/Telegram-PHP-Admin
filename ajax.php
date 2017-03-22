@@ -12,6 +12,7 @@ if($config['using-app'] === TRUE){
 }
 
 function telegram_method($method, $data = NULL){
+	global $config;
 	$url = "https://api.telegram.org/bot" .$config['bot']['id'] .":" .$config['bot']['key'] ."/" .$method;
 	if(!empty($data)){
 		if(is_array($data)){ $data = http_build_query($data); }
