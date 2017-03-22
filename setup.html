@@ -10,7 +10,7 @@
 						<span class="input-group-addon"><i class="fa fa-telegram"></i></span>
 						<input class="form-control" type="text" name="token" id="token" placeholder="Token" pattern="\d{6,9}:\w{35}" maxlength="45" required>
 					</div>
-					<div class="bot-data"></div>
+					<p class="bot-data" style="margin: 10px 0 0 0;"></p>
 				</div>
 			</div>
 		</div>
@@ -31,6 +31,13 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-6 col-md-offset-3">
+			<button class="btn btn-default btn-lg" type="submit" style="width: 100%" disabled>
+				<i class="fa fa-floppy-o"></i> Guardar
+			</button>
+		</div>
+	</div>
 </form>
 <script>
 $(function(){
@@ -45,21 +52,32 @@ $(function(){
 				data: {"test-token": token},
 				dataType: "json"
 			}).fail(function(ret){
+				enableButton(false);
 				$("#token").parent().addClass("has-error");
 				$(".bot-data").append("Comprueba que el Token está bien escrito.");
 				return false;
 			}).done(function(ret){
 				if(ret.ok == true){
+					enableButton(true);
 					$("#token").parent().addClass("has-success");
-					// TODO append name in bot-data.
 					$(".bot-data").append("OK! <b>@" + ret.result.username + "</b>");
 					return true;
 				}else{
+					enableButton(false);
 					$("#token").parent().addClass("has-error");
 					$(".bot-data").append("Comprueba que el Token está bien escrito.");
+					return false;
 				}
 			});
 		}
 	});
+
+	function enableButton(v){
+		if(v == true){
+			$("button[type=submit]").prop('disabled', false).removeClass("btn-default").addClass("btn-primary");
+		}else{
+			$("button[type=submit]").prop('disabled', true).removeClass("btn-primary").addClass("btn-default");
+		}
+	}
 });
 </script>
