@@ -55,18 +55,18 @@ function pushSysinfo(data){
 			.addClass("panel-default");
 		// -------
 		var t = Math.floor($.now() / 1000); // Current time
-		t = t - ret.uptime; // Uptime
+		t = t - data.uptime; // Uptime
 		var d = Math.floor(t / 86400);
 		var h = Math.floor((t - (d * 86400)) / 3600);
 
 		$table.find("tr[data-column=uptime] td:last").text( d + "d " + h + "h" );
 		// -------
-		var ram = Math.floor(((ret.ram[0] - ret.ram[1]) / ret.ram[0]) * 100);
+		var ram = Math.floor(((data.ram[0] - data.ram[1]) / data.ram[0]) * 100);
 		$("#pbar-ram .progress-bar")
 			.prop('aria-valuenow', ram)
 			.css('width', ram+"%");
 		// -------
-		var load = Math.floor((ret.cpu[0] / ret.cpu[3]) * 100);
+		var load = Math.floor((data.cpu[0] / data.cpu[3]) * 100);
 		$("#pbar-cpu .progress-bar")
 			.prop('aria-valuenow', load)
 			.css('width', load+"%");
