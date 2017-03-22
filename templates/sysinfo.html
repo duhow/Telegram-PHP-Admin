@@ -59,13 +59,15 @@ function updateSysinfo(){
 		$("#pbar-cpu .progress-bar")
 			.prop('aria-valuenow', load)
 			.css('width', load+"%");
+
+		setTimeout(function(){ updateSysinfo(); }, 3000);
 	}).fail(function(ret){
 		$panel
 			.removeClass("panel-default")
 			.addClass("panel-danger");
-	});
 
-	setTimeout(function(){ updateSysinfo(); }, 4200);
+		setTimeout(function(){ updateSysinfo(); }, 12000);
+	});
 }
 
 $(function(){

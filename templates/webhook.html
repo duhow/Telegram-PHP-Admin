@@ -41,13 +41,17 @@ function updateWebhook(){
 		$.each(cols, function(i){
 			$table.find("tr[data-column=" + cols[i] +"] td:last").text(ret.result[cols[i]]);
 		});
+
+		setTimeout(function(){ updateWebhook(); }, 3000);
 	}).fail(function(ret){
 		$panel
 			.removeClass("panel-default")
 			.addClass("panel-danger");
+
+		setTimeout(function(){ updateWebhook(); }, 12000);
 	});
 
-	setTimeout(function(){ updateWebhook(); }, 3000);
+
 }
 
 $(function(){
