@@ -1,0 +1,60 @@
+<h1>Configuración inicial</h1>
+<form method="post">
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">API de Telegram</div>
+				<div class="panel-body">
+					<p class="text-muted">Introduce los datos del bot de Telegram.</p>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-telegram"></i></span>
+						<input class="form-control" type="text" name="token" id="token" placeholder="Token" pattern="\d{6,9}:\w{35}" maxlength="45" required>
+					</div>
+					<div class="bot-data"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">Login</div>
+				<div class="panel-body">
+					<p class="text-muted">Crea un usuario y contraseña para poder acceder a este panel.</p>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input class="form-control" type="text" name="user" id="user" placeholder="Usuario" pattern="\w{3,}" required>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
+						<input class="form-control" type="password" name="passwd" id="passwd" placeholder="Contraseña" required>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<script>
+$(function(){
+	$("#token").change(function(){
+		token = $("#token").val();
+		$("#token").parent().removeClass("has-error has-success");
+		$(".bot-data").empty();
+		if(token.length > 38){
+			$.ajax({
+				url: "setup.php",
+				method: "post",
+				data: {"test-token": token},
+				dataType: "json"
+			}).fail(function(ret){
+				$("#token").parent().addClass("has-error");
+				$(".bot-data").append("Comprueba que el Token está bien escrito.");
+				return false;
+			}).done(function(ret){
+				$("#token").parent().addClass("has-success");
+				// TODO append name in bot-data.
+				$(".bot-data").append("El bot parece válido.");
+				return true;
+			});
+		}
+	});
+});
+</script>
