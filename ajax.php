@@ -69,8 +69,8 @@ if(isset($_GET['action'])){
 		break;
 		case 'all':
 			$data = json_encode([
-				'webhook' => file_get_contents(telegram_method('getWebhookInfo')),
-				'sysinfo' => sysinfo_full()
+				'webhook' => json_decode(file_get_contents(telegram_method('getWebhookInfo')), TRUE),
+				'sysinfo' => json_decode(sysinfo_full(), TRUE)
 			]);
 		break;
 
