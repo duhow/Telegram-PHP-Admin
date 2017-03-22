@@ -48,7 +48,7 @@ function updateSysinfo(){
 		var d = Math.floor(t / 86400);
 		var h = Math.floor((t - (d * 86400)) / 3600);
 
-		$table.find("tr[data-column=uptime] td:last").text( d + " d " + h + " h" );
+		$table.find("tr[data-column=uptime] td:last").text( d + "d " + h + "h" );
 		// -------
 		var ram = Math.floor(((ret.ram[0] - ret.ram[1]) - ret.ram[0]) * 100);
 		$("#pbar-ram .progress-bar")
