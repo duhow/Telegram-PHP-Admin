@@ -12,7 +12,10 @@ if(!file_exists('config.php')){
 $config = require 'config.php';
 $web = file_get_contents("templates/render.html");
 
-$main = file_get_contents("templates/webhook.html");
+$webhook = file_get_contents("templates/webhook.html");
+$sysinfo = file_get_contents("templates/sysinfo.html");
+
+$main = $webhook . $sysinfo;
 
 $web = str_replace(
 	["%%TITLE%%", "%%BOTNAME%%", "%%MENU%%", "%%MAIN%%"],
