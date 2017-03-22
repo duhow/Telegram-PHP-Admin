@@ -5,7 +5,7 @@ $config = array();
 
 function checkvar($v){ return (isset($v) && !empty($v)); }
 function getMe($token){
-	$url = "https://api.telegram.org/bot" .$_POST['test-token'] ."/getMe";
+	$url = "https://api.telegram.org/bot$token/getMe";
 	return file_get_contents($url);
 }
 
