@@ -14,8 +14,9 @@ $web = file_get_contents("templates/render.html");
 
 $webhook = file_get_contents("templates/webhook.html");
 $sysinfo = file_get_contents("templates/sysinfo.html");
+$loader = file_get_contents("templates/loader.html");
 
-$main = $webhook . $sysinfo;
+$main = $webhook . $sysinfo . $loader;
 
 $web = str_replace(
 	["%%TITLE%%", "%%BOTNAME%%", "%%MENU%%", "%%MAIN%%"],
