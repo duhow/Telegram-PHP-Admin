@@ -21,7 +21,7 @@ function telegram_method($method, $data = NULL){
 }
 
 if(isset($_GET['action']) && $_GET['action'] == 'getWebhookInfo'){
-	$data = file_get_contents($_GET['action']);
+	$data = file_get_contents(telegram_method($_GET['action']));
 	header("Content-Type: application/json");
 	die($data);
 }

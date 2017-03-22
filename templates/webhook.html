@@ -4,19 +4,19 @@
 		<table class="table">
 			<tbody>
 				<tr data-column="ok">
-					<th class="col-xs-3"><i class="fa fa-cog"></i> Estado</th>
+					<td class="col-xs-3"><i class="fa fa-cog"></i> Estado</td>
 					<td><i class="fa fa-check-circle-o"></i></td>
 				</tr>
 				<tr data-column="url">
-					<th class="col-xs-3"><i class="fa fa-link"></i> Webhook</th>
+					<td class="col-xs-3"><i class="fa fa-link"></i> Webhook</td>
 					<td></td>
 				</tr>
 				<tr data-column="pending_update_count">
-					<th class="col-xs-3"><i class="fa fa-comments-o"></i> Mensajes pendientes</th>
+					<td class="col-xs-3"><i class="fa fa-comments-o"></i> Mensajes pendientes</td>
 					<td></td>
 				</tr>
 				<tr data-column="max_connections">
-					<th class="col-xs-3"><i class="fa fa-plug"></i> Máx. Conexiones</th>
+					<td class="col-xs-3"><i class="fa fa-plug"></i> Máx. Conexiones</td>
 					<td></td>
 				</tr>
 			</tbody>
@@ -28,7 +28,7 @@ function updateWebhook(){
 	var $panel = $("#panel-webhook");
 	var $table = $("#panel-webhook table tbody");
 	$.ajax({
-		method: "GET"
+		method: "GET",
 		url: "ajax.php?action=getWebhookInfo",
 		dataType: "json"
 	}).done(function(ret){
@@ -37,7 +37,7 @@ function updateWebhook(){
 			.addClass("panel-default");
 		var cols = ['url', 'pending_update_count', 'max_connections'];
 		$.each(cols, function(i){
-			$($table + " tr[data-column=" + cols[i] +"] td").text(ret.result[cols[i]]);
+			$($table + " tr[data-column=" + cols[i] +"] td:last").text(ret.result[cols[i]]);
 		});
 
 		$($table + " tr[data-column=url] td").text(ret.result.url);
