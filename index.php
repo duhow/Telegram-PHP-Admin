@@ -9,7 +9,15 @@ if(!file_exists('config.php')){
 	die("Config file not found. Please configure or reinstall.");
 }
 
-require 'config.php';
+$config = require 'config.php';
+$web = file_get_contents("templates/render.html");
 
+$web = str_replace(
+	["%%TITLE%%", "%%BOTNAME%%", "%%MENU%%", "%%MAIN%%"],
+	["Dashboard", $config['bot']['first_name'], "", ""],
+	$web
+);
+
+echo $web;
 
 ?>
