@@ -50,7 +50,7 @@ function updateSysinfo(){
 
 		$table.find("tr[data-column=uptime] td:last").text( d + "d " + h + "h" );
 		// -------
-		var ram = Math.floor(((ret.ram[0] - ret.ram[1]) - ret.ram[0]) * 100);
+		var ram = Math.floor(((ret.ram[0] - ret.ram[1]) / ret.ram[0]) * 100);
 		$("#pbar-ram .progress-bar")
 			.prop('aria-valuenow', ram)
 			.css('width', ram+"%");
