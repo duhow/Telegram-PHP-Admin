@@ -58,7 +58,7 @@ if(isset($_GET['action'])){
 			$data = [
 				'uptime' => strtotime(exec("uptime -s")),
 				'cpu' => [$CPU->now, $CPU->normal, $CPU->long, $CPU->processors],
-				'ram' => [$RAM->MemTotal, $RAM->MemAvailable]
+				'ram' => [(int) $RAM->MemTotal, (int) $RAM->MemAvailable]
 			];
 
 			$data = json_encode($data);
