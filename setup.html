@@ -49,10 +49,15 @@ $(function(){
 				$(".bot-data").append("Comprueba que el Token está bien escrito.");
 				return false;
 			}).done(function(ret){
-				$("#token").parent().addClass("has-success");
-				// TODO append name in bot-data.
-				$(".bot-data").append("El bot parece válido.");
-				return true;
+				if(ret.ok == true){
+					$("#token").parent().addClass("has-success");
+					// TODO append name in bot-data.
+					$(".bot-data").append("OK! <b>@" + ret.result.username + "</b>");
+					return true;
+				}else{
+					$("#token").parent().addClass("has-error");
+					$(".bot-data").append("Comprueba que el Token está bien escrito.");
+				}
 			});
 		}
 	});
