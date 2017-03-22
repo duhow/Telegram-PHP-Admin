@@ -68,10 +68,10 @@ if(isset($_GET['action'])){
 			$data = sysinfo_full();
 		break;
 		case 'all':
-			$data = [
+			$data = json_encode([
 				'webhook' => file_get_contents(telegram_method('getWebhookInfo')),
 				'sysinfo' => sysinfo_full()
-			];
+			]);
 		break;
 
 		default:
