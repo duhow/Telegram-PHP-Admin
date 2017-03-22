@@ -1,6 +1,15 @@
 <?php
 
-require 'config.php';
+$config = require 'config.php';
+$telegram = NULL;
+
+if($config['using-app'] === TRUE){
+	/*
+	require_once '../libs/Telegram-PHP/src/Autoloader.php';
+	$bot = new Telegram\Bot($config['bot']);
+	$telegram = new Telegram\Sender($bot);
+	*/
+}
 
 function telegram_method($method, $data = NULL){
 	$url = "https://api.telegram.org/bot" .$config['bot']['id'] .":" .$config['bot']['key'] ."/" .$method;
@@ -9,6 +18,12 @@ function telegram_method($method, $data = NULL){
 		$url .= "?$data";
 	}
 	return $url;
+}
+
+if(isset($_GET['action']) && $_GET['action'] == 'getWebhookInfo'){
+	$data = file_get_contents($_GET['action']);
+	header("Content-Type: application/json");
+	die($data);
 }
 
 ?>

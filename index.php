@@ -12,9 +12,11 @@ if(!file_exists('config.php')){
 $config = require 'config.php';
 $web = file_get_contents("templates/render.html");
 
+$main = file_get_contents("templates/webhook.html");
+
 $web = str_replace(
 	["%%TITLE%%", "%%BOTNAME%%", "%%MENU%%", "%%MAIN%%"],
-	["Dashboard", $config['bot']['first_name'], "", ""],
+	["Dashboard", $config['bot']['name'], "", $main],
 	$web
 );
 
