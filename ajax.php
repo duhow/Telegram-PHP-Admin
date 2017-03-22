@@ -45,6 +45,19 @@ function sysinfo_CPU(){
 	return (object) $load;
 }
 
+function sysinfo_full(){
+	$RAM = sysinfo_RAM();
+	$CPU = sysinfo_CPU();
+
+	$data = [
+		'uptime' => strtotime(exec("uptime -s")),
+		'cpu' => [$CPU->now, $CPU->normal, $CPU->long, $CPU->processors],
+		'ram' => [(int) $RAM->MemTotal, (int) $RAM->MemAvailable]
+	];
+
+	return json_encode($data);
+}
+
 if(isset($_GET['action'])){
 	$data = NULL;
 	switch ($_GET['action']) {
@@ -52,16 +65,13 @@ if(isset($_GET['action'])){
 			$data = file_get_contents(telegram_method($_GET['action']));
 		break;
 		case 'sysinfo':
-			$RAM = sysinfo_RAM();
-			$CPU = sysinfo_CPU();
-
+			$data = sysinfo_full();
+		break;
+		case 'all':
 			$data = [
-				'uptime' => strtotime(exec("uptime -s")),
-				'cpu' => [$CPU->now, $CPU->normal, $CPU->long, $CPU->processors],
-				'ram' => [(int) $RAM->MemTotal, (int) $RAM->MemAvailable]
+				'webhook' => file_get_contents(telegram_method('getWebhookInfo')),
+				'sysinfo' => sysinfo_full()
 			];
-
-			$data = json_encode($data);
 		break;
 
 		default:

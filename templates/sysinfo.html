@@ -32,13 +32,24 @@
 </div>
 <script>
 function updateSysinfo(){
-	var $panel = $("#panel-sysinfo");
-	var $table = $("#panel-sysinfo table tbody");
 	$.ajax({
 		method: "GET",
 		url: "ajax.php?action=sysinfo",
 		dataType: "json"
 	}).done(function(ret){
+		pushSysinfo(ret);
+		setTimeout(function(){ updateSysinfo(); }, 3000);
+	}).fail(function(ret){
+		pushSysinfo(false);
+		setTimeout(function(){ updateSysinfo(); }, 12000);
+	});
+}
+
+function pushSysinfo(data){
+	var $panel = $("#panel-sysinfo");
+	var $table = $("#panel-sysinfo table tbody");
+
+	if(data){
 		$panel
 			.removeClass("panel-danger")
 			.addClass("panel-default");
@@ -59,18 +70,14 @@ function updateSysinfo(){
 		$("#pbar-cpu .progress-bar")
 			.prop('aria-valuenow', load)
 			.css('width', load+"%");
-
-		setTimeout(function(){ updateSysinfo(); }, 3000);
-	}).fail(function(ret){
+	}else{
 		$panel
 			.removeClass("panel-default")
 			.addClass("panel-danger");
-
-		setTimeout(function(){ updateSysinfo(); }, 12000);
-	});
+	}
 }
 
 $(function(){
-	updateSysinfo();
+	// updateSysinfo();
 });
 </script>

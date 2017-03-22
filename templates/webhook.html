@@ -27,34 +27,39 @@
 </div>
 <script>
 function updateWebhook(){
-	var $panel = $("#panel-webhook");
-	var $table = $("#panel-webhook table tbody");
 	$.ajax({
 		method: "GET",
 		url: "ajax.php?action=getWebhookInfo",
 		dataType: "json"
 	}).done(function(ret){
+		pushWebhook(ret);
+		setTimeout(function(){ updateWebhook(); }, 3000);
+	}).fail(function(ret){
+		pushWebhook(false);
+		setTimeout(function(){ updateWebhook(); }, 12000);
+	});
+}
+
+function pushWebhook(data){
+	var $panel = $("#panel-webhook");
+	var $table = $("#panel-webhook table tbody");
+
+	if(data){
 		$panel
 			.removeClass("panel-danger")
 			.addClass("panel-default");
 		var cols = ['url', 'pending_update_count', 'max_connections'];
 		$.each(cols, function(i){
-			$table.find("tr[data-column=" + cols[i] +"] td:last").text(ret.result[cols[i]]);
+			$table.find("tr[data-column=" + cols[i] +"] td:last").text(data.result[cols[i]]);
 		});
-
-		setTimeout(function(){ updateWebhook(); }, 3000);
-	}).fail(function(ret){
+	}else{
 		$panel
 			.removeClass("panel-default")
 			.addClass("panel-danger");
-
-		setTimeout(function(){ updateWebhook(); }, 12000);
-	});
-
-
+	}
 }
 
 $(function(){
-	updateWebhook();
+	// updateWebhook();
 });
 </script>

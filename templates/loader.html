@@ -1,0 +1,21 @@
+<script>
+function update(){
+	$.ajax({
+		method: "GET",
+		url: "ajax.php?action=all",
+		dataType: 'json',
+	}).done(function(ret){
+		pushWebhook(ret.webhook);
+		pushSysinfo(ret.sysinfo);
+		setTimeout(function(){ update(); }, 3000);
+	}).fail(function(ret){
+		pushWebhook(false);
+		pushSysinfo(false);
+		setTimeout(function(){ update(); }, 12000);
+	});
+}
+
+$(function(){
+	update();
+});
+</script>
