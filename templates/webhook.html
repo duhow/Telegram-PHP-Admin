@@ -26,6 +26,20 @@
 	</div>
 </div>
 <script>
+function parseDate(time){
+	var t = Math.floor($.now() / 1000); // Current time
+	t = t - time; // Uptime
+	var d = Math.floor(t / 86400);
+	var h = Math.floor((t - (d * 86400)) / 3600);
+	var m = Math.floor((t - (d * 86400) - (h * 3600)) / 60);
+	var st = "";
+
+	if(d > 0){ st += d + "d "; }
+	if(h > 0){ st += h + "h "; }
+	if(m > 0){ st += m + "m "; }
+	return (st);
+}
+
 function updateWebhook(){
 	$.ajax({
 		method: "GET",
@@ -52,6 +66,21 @@ function pushWebhook(data){
 		$.each(cols, function(i){
 			$table.find("tr[data-column=" + cols[i] +"] td:last").text(data.result[cols[i]]);
 		});
+
+		if(data.result.hasOwnProperty('last_error_date')){
+			$panel
+				.removeClass("panel-default")
+				.addClass("panel-warning");
+
+			if($table.find("tr[data-column=ok] td:last").data("error") != true){
+				$table.find("tr[data-column=ok] td:last")
+					.data("error", true) // set to check once
+					.append(' <span class="text-muted">' + data.result.last_error_message + ' hace ' + parseDate(data.result.last_error_date) + '</span>');
+				$table.find("tr[data-column=ok] td:last i.fa")
+					.removeClass("fa-check-circle-o")
+					.addClass("fa-exclamation-triangle");
+			}
+		}
 	}else{
 		$panel
 			.removeClass("panel-default")

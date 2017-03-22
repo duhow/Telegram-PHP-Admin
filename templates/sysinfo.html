@@ -31,6 +31,20 @@
 	</div>
 </div>
 <script>
+function parseDate(time){
+	var t = Math.floor($.now() / 1000); // Current time
+	t = t - time; // Uptime
+	var d = Math.floor(t / 86400);
+	var h = Math.floor((t - (d * 86400)) / 3600);
+	var m = Math.floor((t - (d * 86400) - (h * 3600)) / 60);
+	var st = "";
+
+	if(d > 0){ st += d + "d "; }
+	if(h > 0){ st += h + "h "; }
+	if(m > 0){ st += m + "m "; }
+	return (st);
+}
+
 function updateSysinfo(){
 	$.ajax({
 		method: "GET",
@@ -54,12 +68,7 @@ function pushSysinfo(data){
 			.removeClass("panel-danger")
 			.addClass("panel-default");
 		// -------
-		var t = Math.floor($.now() / 1000); // Current time
-		t = t - data.uptime; // Uptime
-		var d = Math.floor(t / 86400);
-		var h = Math.floor((t - (d * 86400)) / 3600);
-
-		$table.find("tr[data-column=uptime] td:last").text( d + "d " + h + "h" );
+		$table.find("tr[data-column=uptime] td:last").text( parseDate(data.uptime) );
 		// -------
 		var ram = Math.floor(((data.ram[0] - data.ram[1]) / data.ram[0]) * 100);
 		$("#pbar-ram .progress-bar")
