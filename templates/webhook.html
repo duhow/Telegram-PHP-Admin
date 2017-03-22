@@ -1,26 +1,28 @@
-<div id="panel-webhook" class="panel panel-default col-xs-12 col-md-6">
-	<div class="panel-heading">Webhook</div>
-	<div class="panel-body">
-		<table class="table">
-			<tbody>
-				<tr data-column="ok">
-					<td class="col-xs-3"><i class="fa fa-cog"></i> Estado</td>
-					<td><i class="fa fa-check-circle-o"></i></td>
-				</tr>
-				<tr data-column="url">
-					<td class="col-xs-3"><i class="fa fa-link"></i> Webhook</td>
-					<td></td>
-				</tr>
-				<tr data-column="pending_update_count">
-					<td class="col-xs-3"><i class="fa fa-comments-o"></i> Mensajes pendientes</td>
-					<td></td>
-				</tr>
-				<tr data-column="max_connections">
-					<td class="col-xs-3"><i class="fa fa-plug"></i> Máx. Conexiones</td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
+<div class="col-xs-12 col-md-6">
+	<div id="panel-webhook" class="panel panel-default">
+		<div class="panel-heading">Webhook</div>
+		<div class="panel-body">
+			<table class="table">
+				<tbody>
+					<tr data-column="ok">
+						<td class="col-xs-3"><i class="fa fa-cog"></i> Estado</td>
+						<td><i class="fa fa-check-circle-o"></i></td>
+					</tr>
+					<tr data-column="url">
+						<td class="col-xs-3"><i class="fa fa-link"></i> Webhook</td>
+						<td></td>
+					</tr>
+					<tr data-column="pending_update_count">
+						<td class="col-xs-3"><i class="fa fa-comments-o"></i> Mensajes pendientes</td>
+						<td></td>
+					</tr>
+					<tr data-column="max_connections">
+						<td class="col-xs-3"><i class="fa fa-plug"></i> Máx. Conexiones</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 <script>
@@ -37,11 +39,8 @@ function updateWebhook(){
 			.addClass("panel-default");
 		var cols = ['url', 'pending_update_count', 'max_connections'];
 		$.each(cols, function(i){
-			$($table + " tr[data-column=" + cols[i] +"] td:last").text(ret.result[cols[i]]);
+			$table.find("tr[data-column=" + cols[i] +"] td:last").text(ret.result[cols[i]]);
 		});
-
-		$($table + " tr[data-column=url] td").text(ret.result.url);
-		$($table + " tr[data-column=url] td").text(ret.result.url);
 	}).fail(function(ret){
 		$panel
 			.removeClass("panel-default")
