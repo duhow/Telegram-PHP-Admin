@@ -1,7 +1,7 @@
 <form method="post">
     <div class="col-xs-12 col-md-6 col-md-offset-3">
         <div class="row">
-            <div id="panel-login" class="panel panel-warning">
+            <div id="panel-login" class="panel panel-danger">
                 <div class="panel-heading"><i class="fa fa-user"></i> Iniciar sesión</div>
                 <div class="panel-body">
                     <div class="input-group">
@@ -26,6 +26,8 @@
 $(function(){
 	$("input").change(function(){
 		$("#panel-login").removeClass("panel-danger").addClass("panel-default");
+	});
+	$("input[type=password]").change(function(){
 		$("button[type=submit]").removeClass("btn-default").addClass("btn-primary");
 	});
 });
