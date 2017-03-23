@@ -1,8 +1,10 @@
 <?php
 
 function showLogin(){
-    header('WWW-Authenticate:Basic realm="Telegram PHP Admin Login"');
-    http_response_code(401);
+	if(!isset($_POST['user']) or !isset($_POST['passwd'])){
+		header('WWW-Authenticate:Basic realm="Telegram PHP Admin Login"');
+		http_response_code(401);
+	}
 
     $web = file_get_contents("templates/render.html");
     $login = file_get_contents("templates/login.html");
