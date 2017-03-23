@@ -1,5 +1,7 @@
 <?php
 
+require 'auth.php';
+
 $config = require 'config.php';
 $telegram = NULL;
 

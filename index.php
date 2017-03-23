@@ -9,6 +9,8 @@ if(!file_exists('config.php')){
 	die("Config file not found. Please configure or reinstall.");
 }
 
+require 'auth.php';
+
 $config = require 'config.php';
 $web = file_get_contents("templates/render.html");
 
