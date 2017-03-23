@@ -14,11 +14,13 @@ if(checkvar($_POST)){
 		header("Content-Type: application/json");
 		die(getMe($_POST['test-token']));
 	}elseif(checkvar($_POST['token']) && checkvar($_POST['user']) && checkvar($_POST['passwd'])){
+		// Create or append htpasswd file with login
 		$hash = $_POST['user'] .":" .password_hash($_POST['passwd'], PASSWORD_BCRYPT, ['cost' => 5]);
 		$fp = fopen(".htpasswd", 'a');
 		fwrite($fp, $hash ."\n");
 		fclose($fp);
 
+		// Check token before continue.
 		$token = $_POST['token'];
 		$bot = getMe($token);
 		if(empty($bot)){
@@ -44,10 +46,6 @@ if(checkvar($_POST)){
 			is_dir("../libs/Telegram-PHP")
 		);
 
-		// TODO Create login with command or via PHP
-		// htpasswd -nBb user passwd
-		// user:$2y$05$QwMugLpbvll2SIROdiyIOOCJRrClJaK6DZUOK2U/WcSZ44Ut7jssW
-
 		// Save Config
 		// http://stackoverflow.com/a/2237315
 		$config = var_export($config, TRUE);
@@ -61,6 +59,7 @@ if(checkvar($_POST)){
 			header("Location: index.php");
 			die();
 		}
+
 		// TODO Check config error
 		http_response_code(400);
 		die("Could not write config.");
