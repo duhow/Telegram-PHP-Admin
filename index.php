@@ -8,6 +8,10 @@ if(!file_exists('config.php')){
 	http_response_code(500);
 	die("Config file not found. Please configure or reinstall.");
 }
+if(file_exists('setup.php')){
+	http_response_code(500);
+	die("Setup file found. Please delete setup.php before running.");
+}
 
 require 'auth.php';
 
