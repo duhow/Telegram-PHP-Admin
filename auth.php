@@ -27,7 +27,7 @@ if(!isset($_SESSION['login_time'])){
         if(!isset($headers['Authorization'])){ showLogin(); }
         if(strpos($headers['Authorization'], "Basic ") !== 0){ showLogin(); } // If not Basic login, error.
 
-        $auth = substr($headers['Authorization'], 0, strlen("Basic "));
+        $auth = substr($headers['Authorization'], strlen("Basic "));
         $auth = base64_decode($auth);
         $auth = explode(":", $auth);
     }
