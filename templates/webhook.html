@@ -75,12 +75,19 @@ function pushWebhook(data){
 			if($table.find("tr[data-column=ok] td:last").data("error") != true){
 				$table.find("tr[data-column=ok] td:last")
 					.data("error", true) // set to check once
-					.append(' <span class="text-muted">' + data.result.last_error_message + '</span> ' + '<span class="text-muted date"></span>');
+					.append(' <span class="text-muted">' + data.result.last_error_message + ' hace</span> ' + '<span class="text-muted date"></span>');
 				$table.find("tr[data-column=ok] td:last i.fa")
 					.removeClass("fa-check-circle-o")
 					.addClass("fa-exclamation-triangle");
 			}
-			$table.find("tr[data-column=ok] td:last span.date").text("hace " + parseDate(data.result.last_error_date));
+			// Update time
+			$table.find("tr[data-column=ok] td:last span.date").text(parseDate(data.result.last_error_date));
+		}
+
+		if(!data.ok){
+			$panel
+				.removeClass("panel-default panel-warning")
+				.addClass("panel-danger");
 		}
 	}else{
 		$panel
