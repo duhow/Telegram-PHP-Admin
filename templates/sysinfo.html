@@ -67,6 +67,18 @@ function updateSysinfo(){
 	});
 }
 
+function progressBarEdit(selector, amount){
+	var $pb = $(selector + " .progress-bar");
+	$pb.prop('aria-valuenow', amount).css('width', amount+"%");
+	$pb.removeClass("progress-bar-warning progress-bar-danger");
+
+	if(amount > 80){
+		$pb.addClass("progress-bar-danger");
+	}else if(amount > 60){
+		$pb.addClass("progress-bar-warning");
+	}
+}
+
 function pushSysinfo(data){
 	var $panel = $("#panel-sysinfo");
 	var $table = $("#panel-sysinfo table tbody");
@@ -79,14 +91,13 @@ function pushSysinfo(data){
 		$table.find("tr[data-column=uptime] td:last").text( parseDate(data.uptime) );
 		// -------
 		var ram = Math.floor(((data.ram[0] - data.ram[1]) / data.ram[0]) * 100);
-		$("#pbar-ram .progress-bar")
-			.prop('aria-valuenow', ram)
-			.css('width', ram+"%");
+		progressBarEdit("#pbar-ram", ram);
 		// -------
 		var load = Math.floor((data.cpu[0] / data.cpu[3]) * 100);
-		$("#pbar-cpu .progress-bar")
-			.prop('aria-valuenow', load)
-			.css('width', load+"%");
+		progressBarEdit("#pbar-cpu", load);
+		// -------
+		var space = Math.floor(((data.hdd[0] - data.hdd[1]) / data.hdd[0]) * 100);
+		progressBarEdit("#pbar-hdd", space);
 	}else{
 		$panel
 			.removeClass("panel-default")

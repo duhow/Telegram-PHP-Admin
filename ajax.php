@@ -45,17 +45,20 @@ function sysinfo_CPU(){
 	return (object) $load;
 }
 
-function sysinfo_full(){
-	$RAM = sysinfo_RAM();
-	$CPU = sysinfo_CPU();
-
-	$data = [
-		'uptime' => strtotime(exec("uptime -s")),
-		'cpu' => [$CPU->now, $CPU->normal, $CPU->long, $CPU->processors],
-		'ram' => [(int) $RAM->MemTotal, (int) $RAM->MemAvailable]
+function sysinfo_HDD(){
+	$cmd = trim(shell_exec('df -kP . | awk \'{print $1","$2","$3","$4","$5","$6" "$7}\''));
+	$cmd = explode("\n", $cmd);
+	$tmp = explode(",", $cmd[1]); // Get second - last line.
+	$HDD = [
+		'Filesystem' => $tmp[0],
+		'Total'	=> (int) $tmp[1],
+		'Used'		=> (int) $tmp[2],
+		'Available'	=> (int) $tmp[3],
+		'Percent'	=> (int) substr($tmp[4], 0, -1),
+		'Mount'		=> $tmp[5]
 	];
 
-	return json_encode($data);
+	return (object) $HDD;
 }
 
 if(isset($_GET['action'])){
@@ -65,13 +68,18 @@ if(isset($_GET['action'])){
 			$data = file_get_contents(telegram_method($_GET['action']));
 		break;
 		case 'sysinfo':
-			$data = sysinfo_full();
-		break;
-		case 'all':
-			$data = json_encode([
-				'webhook' => json_decode(file_get_contents(telegram_method('getWebhookInfo')), TRUE),
-				'sysinfo' => json_decode(sysinfo_full(), TRUE)
-			]);
+			$RAM = sysinfo_RAM();
+			$CPU = sysinfo_CPU();
+			$HDD = sysinfo_HDD();
+
+			$data = [
+				'uptime' => strtotime(exec("uptime -s")),
+				'cpu' => [$CPU->now, $CPU->normal, $CPU->long, $CPU->processors],
+				'ram' => [$RAM->MemTotal, $RAM->MemAvailable],
+				'hdd' => [$HDD->Total, $HDD->Available, $HDD->Mount]
+			];
+
+			$data = json_encode($data);
 		break;
 
 		default:
