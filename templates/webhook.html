@@ -68,9 +68,11 @@ function pushWebhook(data){
 		});
 
 		if(data.result.hasOwnProperty('last_error_date')){
-			$panel
-				.removeClass("panel-default")
-				.addClass("panel-warning");
+			$panel.removeClass("panel-default");
+			var t = Math.floor($.now() / 1000) - data.result.last_error_date;
+
+			// Add danger if recent error or warning.
+			$panel.addClass("panel-" + (t < 120 ? "danger" : "warning"));
 
 			if($table.find("tr[data-column=ok] td:last").data("error") != true){
 				$table.find("tr[data-column=ok] td:last")
