@@ -1,5 +1,5 @@
 <?php
 
-return file_get_contents("../templates/webhook.html");
+return file_get_contents(dirname(__FILE__) ."/../templates/webhook.html");
 
 ?>
