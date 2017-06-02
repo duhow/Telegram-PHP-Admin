@@ -24,7 +24,8 @@ function telegram_method($method, $data = NULL){
 }
 
 function sysinfo_RAM(){
-	$RAM = array();
+	$RAM = array('MemTotal' => 0, 'MemAvailable' => 0);
+	if(!file_exists("/proc/meminfo")){ return (object) $RAM; }
 	foreach(explode("\n", file_get_contents("/proc/meminfo")) as $l){
 		$v = explode(":", $l);
 		if(count($v) != 2){ continue; }
@@ -35,9 +36,12 @@ function sysinfo_RAM(){
 }
 
 function sysinfo_CPU(){
-	$load_tmp = array();
-	foreach(explode(" ", file_get_contents("/proc/loadavg")) as $l){
-		$load_tmp[] = trim($l);
+	$load_tmp = array(0,0,0);
+	if(file_exists("/proc/loadavg")){
+		$load_tmp = array();
+		foreach(explode(" ", file_get_contents("/proc/loadavg")) as $l){
+			$load_tmp[] = trim($l);
+		}
 	}
 	$load['now'] = (float) $load_tmp[0];
 	$load['normal'] = (float) $load_tmp[1];
@@ -50,7 +54,8 @@ function sysinfo_CPU(){
 function sysinfo_HDD(){
 	$cmd = trim(shell_exec('df -kP . | awk \'{print $1","$2","$3","$4","$5","$6" "$7}\''));
 	$cmd = explode("\n", $cmd);
-	$tmp = explode(",", $cmd[1]); // Get second - last line.
+	if(!isset($cmd[1])){ $tmp = [0,0,0,0,0,0]; }
+	else { $tmp = explode(",", $cmd[1]); } // Get second - last line.
 	$HDD = [
 		'Filesystem' => $tmp[0],
 		'Total'	=> (int) $tmp[1],
