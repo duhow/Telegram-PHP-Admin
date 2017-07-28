@@ -36,13 +36,7 @@ function sysinfo_RAM(){
 }
 
 function sysinfo_CPU(){
-	$load_tmp = array(0,0,0);
-	if(file_exists("/proc/loadavg")){
-		$load_tmp = array();
-		foreach(explode(" ", file_get_contents("/proc/loadavg")) as $l){
-			$load_tmp[] = trim($l);
-		}
-	}
+	$load_tmp = sys_getloadavg();
 	$load['now'] = (float) $load_tmp[0];
 	$load['normal'] = (float) $load_tmp[1];
 	$load['long'] = (float) $load_tmp[2];
