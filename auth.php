@@ -35,6 +35,7 @@ if(!isset($_SESSION['login_time'])){
     }
 
     $users = explode("\n", file_get_contents(".htpasswd"));
+	if(empty($users)){ showLogin(); }
     foreach($users as $u){
         list($user, $pass) = explode(":", $u);
         if($user == $auth[0]){
