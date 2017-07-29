@@ -43,6 +43,8 @@ if(!isset($_SESSION['login_time'])){
                 $_SESSION['login_id'] = $auth[0];
                 $_SESSION['login_time'] = (time() + 300);
             }else{
+				$access = date("Y/m/d H:i:s");
+    			syslog(LOG_WARNING, "Telegram-PHP-Admin Access denied: $access {$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})");
                 showLogin();
             }
         }
